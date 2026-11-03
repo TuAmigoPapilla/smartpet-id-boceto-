@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartPet ID | Placa QR y ficha digital para mascotas</title>
+<meta name="description" content="SmartPet ID: placa QR y ficha digital editable para ayudar a contactar a la familia de una mascota encontrada en La Serena y Coquimbo.">
+<style>
+:root{
+  --navy:#16324f; --teal:#14887b; --teal-dark:#0f6f64; --mint:#e6f6f1; --sand:#f4f1ea;
+  --ink:#22333f; --muted:#4f6272; --line:#d9e2e7; --amber:#ffb45b; --white:#fff;
+  --serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --radius:16px; --shadow:0 14px 40px rgba(22,50,79,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;font:1.0625rem/1.65 var(--sans);color:var(--ink);background:#fff}
+a{color:inherit;text-decoration:none}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1080px,calc(100% - 40px));margin-inline:auto}
+h1,h2,h3{font-family:var(--serif);color:var(--navy);line-height:1.12;margin:0}
+h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.5px}
+p{margin:0}
+.lead{color:var(--muted);max-width:60ch}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
+  padding:13px 22px;border-radius:999px;font:700 1rem var(--sans);transition:background .2s,transform .2s}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--teal)}
+.btn-amber{background:var(--amber);color:#3d2808;width:100%;margin-top:20px;font-size:1.05rem}
+.btn-amber:hover{background:#ffa53d}
+
+/* Encabezado */
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}
+.brand{display:flex;align-items:center;gap:10px;font:800 1.25rem var(--sans);color:var(--navy)}
+.brand b{color:var(--teal)}
+.logo{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--teal);font-size:1.2rem}
+.links{display:flex;gap:26px;font-size:.98rem;color:var(--muted)}
+.links a:hover{color:var(--teal)}
+
+/* Hero */
+.hero{background:linear-gradient(160deg,#eef9f6 0%,#fffaf2 100%);padding:72px 0 80px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.tag{display:inline-block;background:var(--mint);color:#0f6f64;font-weight:700;font-size:.92rem;padding:6px 14px;border-radius:999px}
+.hero h1{font-size:clamp(2.3rem,5vw,4rem);letter-spacing:-1.5px;margin:20px 0}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero .lead{font-size:1.15rem}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 16px}
+.note{font-size:.95rem;color:var(--muted)}
+.card-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.pet-card{width:min(340px,100%);background:#fff;border-radius:26px;padding:16px;box-shadow:var(--shadow);transform:rotate(2deg)}
+.pet-photo{height:220px;border-radius:18px;background:linear-gradient(145deg,#d8eee5,#f4cfa5);display:grid;place-items:center;font-size:6.5rem}
+.pet-body{padding:16px 6px 4px}
+.status{display:inline-block;background:#fff1dc;color:#8a4f08;font-weight:700;font-size:.82rem;padding:4px 12px;border-radius:999px}
+.pet-body h3{font-size:1.5rem;margin:10px 0 2px}
+.pet-body p{color:var(--muted);margin-bottom:14px}
+.pet-body .btn{width:100%;padding:11px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-weight:600;font-size:.95rem;color:var(--navy);box-shadow:0 6px 18px rgba(22,50,79,.08)}
+
+/* Secciones */
+section{padding:84px 0}
+.soft{background:#f6faf9}
+.sand{background:var(--sand)}
+.head{margin-bottom:40px}
+.head.center{text-align:center}
+.head.center .lead{margin-inline:auto}
+.head h2{margin-bottom:12px}
+
+/* Mascotas perdidas */
+.lost-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.aviso{background:#fff8e8;border:1px solid #f1d9a6;color:#6b4a0b;border-radius:12px;padding:12px 16px;font-size:.97rem;margin-bottom:24px}
+.tools{display:grid;grid-template-columns:1fr 220px;gap:14px;margin-bottom:12px}
+.field label{display:block;font-weight:700;font-size:.95rem;color:var(--navy);margin-bottom:6px}
+.field input,.field select{width:100%;padding:13px 14px;border:1px solid #b9c7d0;border-radius:12px;font:1rem var(--sans);background:#fff;color:var(--ink)}
+.count{color:var(--muted);margin:16px 0 12px;font-size:.98rem}
+.list{display:grid;gap:10px;padding:0;margin:0;list-style:none}
+.row{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;cursor:pointer;font:1rem var(--sans);color:var(--ink);transition:border-color .2s}
+.row:hover{border-color:var(--teal)}
+.row strong{font:600 1.35rem var(--serif);color:var(--navy)}
+.row small{background:#ffe9d1;color:#7a4306;border-radius:999px;padding:2px 10px;margin-left:8px;font-weight:700;font-size:.78rem}
+.row .meta{display:block;color:var(--muted);font-size:.95rem;margin-top:2px}
+.empty{text-align:center;color:var(--muted);padding:24px}
+
+dialog{border:0;border-radius:22px;padding:0;width:min(440px,calc(100% - 32px));box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(22,50,79,.5)}
+.dlg{padding:26px}
+.dlg h3{font-size:1.7rem;margin:10px 0}
+.dlg dl{margin:16px 0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px}
+.dlg dt{font-weight:700;color:var(--navy)}
+.dlg dd{margin:0;color:var(--muted)}
+.dlg .btn{width:100%;margin-top:8px}
+
+/* Pasos y beneficios */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0;margin:0;list-style:none}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.box{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.box h3{font:700 1.15rem var(--sans);margin:12px 0 8px}
+.box p{color:var(--muted);font-size:1rem}
+.num{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--mint);color:var(--teal-dark);font-weight:800}
+.ico{font-size:1.8rem}
+
+/* Demo */
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.demo h2{margin:14px 0}
+.panel{background:var(--navy);color:#fff;border-radius:26px;padding:30px;box-shadow:var(--shadow)}
+.panel h3{color:#fff;font-size:1.5rem;margin-bottom:6px}
+.panel>p{color:#d3e1e9}
+.panel label{display:block;font-weight:700;font-size:.95rem;margin:18px 0 6px}
+.panel input,.panel select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #5b7388;background:#223f5b;color:#fff;font:1rem var(--sans)}
+.panel input::placeholder{color:#b5c6d2}
+.result{margin-top:18px;background:#fff;color:var(--navy);border-radius:16px;padding:18px}
+.result[hidden]{display:none}
+.result strong{font-size:1.15rem}
+.result p{color:var(--muted);font-size:.97rem;margin-top:6px}
+.result .lost{color:#a3470a;font-weight:700}
+.qr{width:120px;margin:22px auto 8px;background:#fff;padding:8px;border-radius:10px;display:block}
+.qr-note{text-align:center;color:#c5d6e0;font-size:.9rem}
+.info{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-top:20px}
+.info h3{font:700 1.05rem var(--sans);margin-bottom:6px}
+.info p{color:var(--muted);font-size:1rem}
+
+/* Preguntas frecuentes */
+.faq{max-width:760px;margin:auto;display:grid;gap:10px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:0 22px}
+.faq summary{cursor:pointer;font-weight:700;color:var(--navy);padding:18px 0;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--teal);font-size:1.4rem;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq details p{color:var(--muted);padding-bottom:18px}
+
+/* Precio y cierre */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plan{position:relative;background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-direction:column}
+.plan.best{border:2px solid var(--teal);box-shadow:var(--shadow)}
+.plan .flag{position:absolute;top:-13px;left:24px;background:var(--teal);color:#fff;font-weight:700;font-size:.82rem;padding:4px 12px;border-radius:999px}
+.plan h3{font:700 1.25rem var(--sans);color:var(--navy)}
+.plan .for{color:var(--muted);font-size:.97rem;margin-top:2px}
+.plan .amount{font:700 2.4rem var(--serif);color:var(--navy);margin:14px 0 2px}
+.plan .amount small{font:600 1rem var(--sans);color:var(--muted)}
+.plan .sub{color:var(--muted);font-size:.93rem}
+.plan ul{margin:16px 0 22px;padding-left:20px;color:var(--muted);flex:1}
+.plan li{margin:6px 0}
+.plan .btn{width:100%}
+.extras{max-width:760px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px}
+.extras h3{font:700 1.05rem var(--sans);margin-bottom:8px}
+.extras dl{display:grid;grid-template-columns:1fr auto;gap:6px 16px;margin:0}
+.extras dt{color:var(--muted)}
+.extras dd{margin:0;font-weight:700;color:var(--navy)}
+.fine{text-align:center;color:var(--muted);font-size:.95rem;margin-top:16px}
+.cta{background:linear-gradient(120deg,var(--navy),#1b6c70);border-radius:28px;padding:52px 28px;text-align:center;color:#fff}
+.cta h2{color:#fff;margin-bottom:12px}
+.cta p{color:#d5e8e9;max-width:56ch;margin:0 auto 24px}
+.cta .btn{background:#fff;color:var(--navy)}
+
+/* Pie */
+footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:.97rem}
+.foot{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:24px}
+footer strong{color:var(--navy)}
+footer h4{margin:0 0 8px;color:var(--navy);font-size:1rem}
+footer a:hover{color:var(--teal)}
+
+/* Móvil */
+@media(max-width:860px){
+  .hero-grid,.demo,.foot{grid-template-columns:1fr}
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  .grid3{grid-template-columns:1fr}
+  .plans{grid-template-columns:1fr}
+  .nav{flex-wrap:wrap;padding:10px 0;gap:8px}
+  .links{order:3;width:100%;overflow-x:auto;gap:20px;padding-bottom:8px;white-space:nowrap}
+  .hero{padding:48px 0 56px}
+  section{padding:60px 0}
+}
+@media(max-width:520px){
+  .wrap{width:calc(100% - 28px)}
+  .grid4{grid-template-columns:1fr}
+  .tools{grid-template-columns:1fr}
+  .actions .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio" aria-label="SmartPet ID, inicio"><span class="logo" aria-hidden="true">🐾</span>SmartPet <b>ID</b></a>
+    <nav class="links" aria-label="Principal">
+      <a href="#mascotas-perdidas">Mascotas perdidas</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#precio">Precio</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-primary" data-wa="Hola, quiero pedir mi placa SmartPet ID" href="#precio">Pedir mi placa</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag">Para perros y gatos de La Serena y Coquimbo</span>
+      <h1>Si tu mascota se pierde, quien la encuentre podrá <em>avisarte en segundos.</em></h1>
+      <p class="lead">SmartPet ID une una placa con código QR y una ficha digital que tú mantienes al día. Quien la encuentra escanea el QR, ve los datos que autorizaste y te llama o te escribe.</p>
+      <div class="actions">
+        <a class="btn btn-primary" data-wa="Hola, quiero pedir mi placa SmartPet ID" href="#precio">Pedir mi placa</a>
+        <a class="btn btn-ghost" href="#demo">Ver perfil de ejemplo</a>
+      </div>
+      <p class="note">Quien la encuentra no necesita descargar una aplicación. Solo escanear el QR y tener internet. Además, grabamos un teléfono en la placa por si no hay conexión.</p>
+    </div>
+    <div class="card-wrap" aria-label="Ejemplo ilustrativo de ficha">
+      <div class="pet-card">
+        <div class="pet-photo" role="img" aria-label="Ilustración de un perro">🐕</div>
+        <div class="pet-body">
+          <span class="status">Modo perdido (ejemplo)</span>
+          <h3>Max</h3>
+          <p>“Soy curioso y muy amistoso.”</p>
+          <a class="btn btn-primary" href="#demo">Contactar al responsable</a>
+        </div>
+      </div>
+      <span class="chip">🔒 Solo se muestran los datos que la familia autoriza</span>
+    </div>
+  </div>
+</section>
+
+<section class="sand" id="mascotas-perdidas" aria-labelledby="t-perdidas">
+  <div class="wrap">
+    <div class="lost-top">
+      <div>
+        <h2 id="t-perdidas">Les falta volver a casa.</h2>
+        <p class="lead" style="margin-top:12px">Elige un nombre para ver sus datos y cómo contactar a su familia.</p>
+      </div>
+    </div>
+    <p class="aviso"><strong>Importante:</strong> Bruno y Mora son mascotas ficticias que muestran cómo se verán las fichas.</p>
+
+    <div class="tools">
+      <div class="field"><label for="q">Buscar una mascota</label><input id="q" type="search" placeholder="Ej. Lisa, gatita, perro café"></div>
+      <div class="field"><label for="esp">Especie</label>
+        <select id="esp"><option value="todas">Todas</option><option value="gato">Gatos</option><option value="perro">Perros</option></select>
+      </div>
+    </div>
+    <p class="count" id="count" role="status"></p>
+    <ul class="list" id="list"></ul>
+    <p class="empty" id="empty" hidden>No hay coincidencias. Prueba con otro nombre o elige todas las especies.</p>
+  </div>
+</section>
+
+<dialog id="dlg" aria-labelledby="dlg-name">
+  <div class="dlg" id="dlg-body"></div>
+</dialog>
+
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="head center"><h2>Así se acerca una mascota a casa</h2><p class="lead">La placa lleva a una ficha web que el responsable mantiene al día.</p></div>
+    <ol class="grid4">
+      <li class="box"><div class="num">1</div><h3>Alguien la encuentra</h3><p>Un perro o gato con su placa SmartPet.</p></li>
+      <li class="box"><div class="num">2</div><h3>Escanea el QR</h3><p>Basta la cámara del celular.</p></li>
+      <li class="box"><div class="num">3</div><h3>Revisa la ficha</h3><p>Ve el nombre, la foto y los contactos autorizados.</p></li>
+      <li class="box"><div class="num">4</div><h3>Avisa a la familia</h3><p>Llama o escribe para decir dónde está la mascota.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="soft" id="beneficios">
+  <div class="wrap">
+    <div class="head center"><h2>Más que una placa tradicional</h2><p class="lead">Los datos pueden cambiar sin cambiar la placa.</p></div>
+    <div class="grid3">
+      <article class="box"><div class="ico" aria-hidden="true">🔄</div><h3>Ficha editable</h3><p>Actualiza el teléfono u otros datos sin reemplazar el QR.</p></article>
+      <article class="box"><div class="ico" aria-hidden="true">🚨</div><h3>Modo perdido</h3><p>Destaca en la ficha que la mascota se está buscando y facilita el contacto.</p></article>
+      <article class="box"><div class="ico" aria-hidden="true">🛡️</div><h3>Privacidad primero</h3><p>La familia decide qué información se publica. No se muestra el domicilio.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap demo">
+    <div>
+      <span class="tag">Vista previa</span>
+      <h2>Así se verá la ficha de tu mascota</h2>
+      <p class="lead">Escribe un nombre y un contacto de ejemplo para ver la vista previa. Los datos no se envían ni se guardan.</p>
+      <div class="info"><h3>¿Cómo se crea tu ficha real?</h3><p>Al pedir tu placa nos envías el nombre, la foto y el teléfono que quieres mostrar. Nosotros creamos tu ficha y grabamos un QR único que lleva directo a ella.</p></div>
+    </div>
+    <div class="panel">
+      <h3>Perfil de ejemplo</h3>
+      <p>Completa los campos para ver cómo se mostraría.</p>
+      <label for="n">Nombre de la mascota</label><input id="n" value="Max" maxlength="40">
+      <label for="c">Contacto de ejemplo</label><input id="c" placeholder="Ej. +56 9 1234 5678" maxlength="40">
+      <label for="s">Estado</label>
+      <select id="s"><option value="normal">Perfil activo</option><option value="lost">Modo perdido activado</option></select>
+      <button class="btn btn-amber" id="go" type="button">Ver vista previa</button>
+      <div class="result" id="res" hidden aria-live="polite"></div>
+      <svg class="qr" viewBox="0 0 21 21" role="img" aria-label="Patrón decorativo, no escaneable">
+        <rect width="21" height="21" fill="#fff"/>
+        <g fill="#16324f"><path d="M1 1h7v7H1zM13 1h7v7h-7zM1 13h7v7H1z"/><path fill="#fff" d="M2.5 2.5h4v4h-4zM14.5 2.5h4v4h-4zM2.5 14.5h4v4h-4z"/><path d="M3.5 3.5h2v2h-2zM15.5 3.5h2v2h-2zM3.5 15.5h2v2h-2zM10 1h1v2h-1zM9 5h2v1H9zM9 9h2v2H9zM12 10h2v2h-2zM16 9h1v2h-1zM19 10h1v2h-1zM9 13h2v2H9zM15 13h2v2h-2zM10 17h2v1h-2zM13 18h2v2h-2zM17 16h3v2h-3z"/></g>
+      </svg>
+      <p class="qr-note">Este patrón es decorativo y no se puede escanear.</p>
+    </div>
+  </div>
+</section>
+
+<section class="soft" id="precio">
+  <div class="wrap">
+    <div class="head center"><h2>Elige el plan para tu mascota</h2><p class="lead">Pago único, sin mensualidades. Todos incluyen ficha digital.</p></div>
+    <!-- CAMBIA LOS PRECIOS AQUÍ -->
+    <div class="plans">
+      <article class="plan">
+        <h3>Básico</h3>
+        <p class="for">Para empezar con lo esencial</p>
+        <div class="amount">$9.990 <small>CLP</small></div>
+        <p class="sub">1 mascota</p>
+        <ul>
+          <li>Placa con código QR único</li>
+          <li>Ficha digital con foto y contacto</li>
+          <li>Solo se muestran los datos que autorices</li>
+        </ul>
+        <a class="btn btn-ghost" data-wa="Hola, quiero el plan Básico de SmartPet ID ($9.990)" href="#precio">Pedir plan Básico</a>
+      </article>
+
+      <article class="plan best">
+        <span class="flag">Más elegido</span>
+        <h3>Completo</h3>
+        <p class="for">La protección más tranquila</p>
+        <div class="amount">$12.990 <small>CLP</small></div>
+        <p class="sub">1 mascota</p>
+        <ul>
+          <li>Todo lo del plan Básico</li>
+          <li>Teléfono grabado en la placa</li>
+          <li>Modo perdido con aviso destacado</li>
+          <li>Cambios en la ficha cuando quieras</li>
+        </ul>
+        <a class="btn btn-primary" data-wa="Hola, quiero el plan Completo de SmartPet ID ($12.990)" href="#precio">Pedir plan Completo</a>
+      </article>
+
+      <article class="plan">
+        <h3>Pack familiar</h3>
+        <p class="for">Para hogares con más de una mascota</p>
+        <div class="amount">$22.990 <small>CLP</small></div>
+        <p class="sub">2 mascotas · ahorras $2.990</p>
+        <ul>
+          <li>2 placas del plan Completo</li>
+          <li>Una ficha por cada mascota</li>
+          <li>Una placa de repuesto a mitad de precio</li>
+        </ul>
+        <a class="btn btn-ghost" data-wa="Hola, quiero el Pack familiar de SmartPet ID ($22.990)" href="#precio">Pedir Pack familiar</a>
+      </article>
+    </div>
+
+    <div class="extras">
+      <h3>Otros servicios</h3>
+      <dl>
+        <dt>Placa de reemplazo (misma ficha)</dt><dd>$5.990</dd>
+        <dt>Mascota adicional en el pack</dt><dd>$10.990</dd>
+        <dt>Cambio del teléfono grabado</dt><dd>$4.990</dd>
+      </dl>
+    </div>
+    <p class="fine">Pago por transferencia al confirmar tu pedido. Entrega en La Serena y Coquimbo. Precios referenciales: verifica tus costos de fabricación antes de vender.</p>
+  </div>
+</section>
+
+<section id="preguntas">
+  <div class="wrap">
+    <div class="head center"><h2>Preguntas frecuentes</h2></div>
+    <div class="faq">
+      <details><summary>¿Y si quien la encuentra no tiene internet?</summary>
+        <p>La placa lleva grabado un teléfono de contacto, así que pueden llamarte sin necesidad de escanear el QR.</p></details>
+      <details><summary>¿Quién ve mis datos?</summary>
+        <p>Solo lo que tú autorices, por ejemplo el nombre de tu mascota, una foto y un teléfono. Nunca mostramos tu dirección.</p></details>
+      <details><summary>¿Puedo cambiar mi teléfono después?</summary>
+        <p>Sí. La ficha se actualiza sin cambiar la placa ni el QR. Solo el teléfono grabado en el metal quedaría con el número anterior.</p></details>
+      <details><summary>¿Qué pasa si la placa se pierde o se daña?</summary>
+        <p>Escríbenos y desactivamos la ficha anterior. Podemos hacer una placa nueva enlazada a la misma ficha.</p></details>
+      <details><summary>¿Cómo cuidan mis datos personales?</summary>
+        <p>Solo usamos tus datos para crear y mantener la ficha de tu mascota. No los vendemos ni los compartimos. Puedes pedir que los corrijamos o los eliminemos cuando quieras.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sand">
+  <div class="wrap"><div class="cta">
+    <h2>Una pequeña placa. Un contacto importante.</h2>
+    <p>Pide tu placa SmartPet ID y deja lista la ficha de tu mascota antes de que la necesites.</p>
+    <a class="btn" data-wa="Hola, quiero pedir mi placa SmartPet ID" href="#precio">Pedir mi placa por WhatsApp</a>
+  </div></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><strong>🐾 SmartPet ID</strong><br>Identificación y contacto para mascotas en La Serena y Coquimbo.</div>
+    <div><h4>Contacto</h4>
+      <!-- CAMBIA ESTE CORREO POR EL TUYO -->
+      <a href="mailto:contacto@ejemplo.cl">contacto@ejemplo.cl</a><br>
+      <a data-wa="Hola, tengo una consulta sobre SmartPet ID" href="#precio">WhatsApp</a></div>
+    <div><h4>Autores</h4>Juan Pablo<br>Álvaro Pizarro<br>Laura<br><span style="font-size:.9rem">Propuesta académica · © 2026 SmartPet ID</span></div>
+  </div>
+</footer>
+
+<script>
+/* ============ CONFIGURACIÓN: cambia solo estas líneas ============ */
+const WHATSAPP = "56900000000"; // Tu número: 56 + 9 + 8 dígitos, sin + ni espacios
+const FICHA_URL = "ficha.html"; // Página de la ficha individual
+/* ================================================================== */
+
+// Todos los botones con data-wa abren WhatsApp con ese mensaje
+document.querySelectorAll('[data-wa]').forEach(a=>{
+  a.href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(a.dataset.wa);
+  a.target='_blank'; a.rel='noopener';
+});
+
+// Mascotas de la lista. Agrega más objetos aquí (separados por coma).
+// tel: teléfono con código de país, sin + (ej. 56912345678). Si no hay, no se muestra el botón.
+const MASCOTAS=[
+  {id:'lisa',nombre:'Lisa',especie:'gato',desc:'Gatita tortuga (carey)',boceto:false,tel:'',
+   buscar:'lisa gato gata gatita tortuga carey'},
+  {id:'bruno',nombre:'Bruno',especie:'perro',desc:'Perro café',boceto:true,tel:'',
+   buscar:'bruno perro cafe'},
+  {id:'mora',nombre:'Mora',especie:'gato',desc:'Gatita negra',boceto:true,tel:'',
+   buscar:'mora gata gato gatita negra'}
+];
+const $=id=>document.getElementById(id);
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function render(){
+  const q=norm($('q').value.trim()), e=$('esp').value;
+  const r=MASCOTAS.filter(m=>(e==='todas'||m.especie===e)&&(!q||norm(m.buscar).includes(q)));
+  $('list').innerHTML=r.map(m=>
+    `<li><button class="row" type="button" data-id="${m.id}"><span><strong>${m.nombre}</strong>${m.boceto?'<small>Boceto</small>':''}<span class="meta">${m.desc}</span></span><span aria-hidden="true">↗</span></button></li>`).join('');
+  $('empty').hidden=r.length>0;
+  $('count').textContent=r.length+(r.length===1?' mascota':' mascotas');
+}
+$('q').addEventListener('input',render);
+$('esp').addEventListener('change',render);
+$('list').addEventListener('click',ev=>{
+  const b=ev.target.closest('.row'); if(!b) return;
+  const m=MASCOTAS.find(x=>x.id===b.dataset.id);
+  const contacto=m.tel
+    ? `<a class="btn btn-primary" target="_blank" rel="noopener" href="https://wa.me/${m.tel}?text=${encodeURIComponent('Hola, creo que encontré a '+m.nombre)}">Escribir por WhatsApp</a>
+       <a class="btn btn-ghost" href="tel:+${m.tel}">Llamar</a>`
+    : '';
+  $('dlg-body').innerHTML=
+    `<span class="status">${m.boceto?'Boceto de ejemplo':'Ficha'}</span>
+     <h3 id="dlg-name">${m.nombre}</h3>
+     <dl><dt>Especie</dt><dd>${m.especie==='gato'?'Gato':'Perro'}</dd>
+     <dt>Descripción</dt><dd>${m.desc}</dd>
+     <dt>Contacto</dt><dd>${m.tel?'Disponible abajo':(m.boceto?'No disponible en este boceto':'Pendiente de agregar')}</dd></dl>
+     ${contacto}
+     <button class="btn btn-ghost" type="button" id="close">Cerrar</button>`;
+  $('dlg').showModal();
+  $('close').onclick=()=>$('dlg').close();
+});
+$('dlg').addEventListener('click',ev=>{if(ev.target===$('dlg'))$('dlg').close()});
+render();
+
+// Demo del perfil
+$('go').addEventListener('click',()=>{
+  const n=esc($('n').value.trim()||'Mascota de ejemplo');
+  const c=esc($('c').value.trim()||'Sin contacto ingresado');
+  const lost=$('s').value==='lost';
+  const r=$('res');
+  r.innerHTML=`<strong>🐾 ${n}</strong><p class="${lost?'lost':''}">${lost?'Modo perdido activado':'Perfil de demostración'}</p><p>Contacto autorizado: ${c}</p><p>Vista previa local: los datos no se guardan ni se envían.</p>`;
+  r.hidden=false;
+});
+</script>
+</body>
+</html>
