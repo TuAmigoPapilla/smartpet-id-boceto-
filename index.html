@@ -145,6 +145,9 @@ dialog::backdrop{background:rgba(22,50,79,.5)}
 .plan .amount{font:700 2.4rem var(--serif);color:var(--navy);margin:14px 0 2px}
 .plan .amount small{font:600 1rem var(--sans);color:var(--muted)}
 .plan .sub{color:var(--muted);font-size:.93rem}
+.plan .amount s{font:600 1.1rem var(--sans);color:#8a97a1;margin-right:6px}
+.plan .off{display:inline-block;background:#e8590c;color:#fff;font-weight:700;font-size:.8rem;padding:3px 10px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.plan .oferta{color:#a3470a;font-size:.88rem;font-weight:600;margin-top:2px}
 .plan ul{margin:16px 0 22px;padding-left:20px;color:var(--muted);flex:1}
 .plan li{margin:6px 0}
 .plan .btn{width:100%}
@@ -327,8 +330,9 @@ footer a:hover{color:var(--teal)}
         <span class="flag">Más elegido</span>
         <h3>Completo</h3>
         <p class="for">La protección más tranquila</p>
-        <div class="amount">$12.990 <small>CLP</small></div>
+        <div class="amount"><s>$12.990</s>$10.990 <small>CLP</small><span class="off">-15%</span></div>
         <p class="sub">1 mascota</p>
+        <p class="oferta">Oferta de lanzamiento</p>
         <ul>
           <li>Todo lo del plan Básico</li>
           <li>Teléfono grabado en la placa</li>
@@ -341,8 +345,9 @@ footer a:hover{color:var(--teal)}
       <article class="plan">
         <h3>Pack familiar</h3>
         <p class="for">Para hogares con más de una mascota</p>
-        <div class="amount">$22.990 <small>CLP</small></div>
-        <p class="sub">2 mascotas · ahorras $2.990</p>
+        <div class="amount"><s>$22.990</s>$19.990 <small>CLP</small><span class="off">-13%</span></div>
+        <p class="sub">2 mascotas · ahorras $5.990 frente a comprarlas por separado</p>
+        <p class="oferta">Oferta de lanzamiento</p>
         <ul>
           <li>2 placas del plan Completo</li>
           <li>Una ficha por cada mascota</li>
