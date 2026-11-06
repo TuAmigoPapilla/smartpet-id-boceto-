@@ -96,7 +96,8 @@ dialog::backdrop{background:rgba(22,50,79,.5)}
 .dlg dt{font-weight:700;color:var(--navy)}
 .dlg dd{margin:0;color:var(--muted)}
 .dlg .btn{width:100%;margin-top:8px}
-
+.dlg .foto{display:block;width:100%;height:260px;object-fit:cover;object-position:center 30%;border-radius:16px;margin-bottom:14px}
+  
 /* Pasos y beneficios */
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0;margin:0;list-style:none}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -422,7 +423,7 @@ document.querySelectorAll('[data-wa]').forEach(a=>{
 // Mascotas de la lista. Agrega más objetos aquí (separados por coma).
 // tel: teléfono con código de país, sin + (ej. 56912345678). Si no hay, no se muestra el botón.
 const MASCOTAS=[
-  {id:'lisa',nombre:'Lisa',especie:'gato',desc:'Gatita tortuga (carey)',boceto:false,tel:'',
+  {id:'lisa',nombre:'Lisa',especie:'gato',desc:'Gatita tortuga (carey)',boceto:false,foto:'lisa.png',tel:'',
    buscar:'lisa gato gata gatita tortuga carey'},
   {id:'bruno',nombre:'Bruno',especie:'perro',desc:'Perro café',boceto:true,tel:'',
    buscar:'bruno perro cafe'},
@@ -451,7 +452,7 @@ $('list').addEventListener('click',ev=>{
        <a class="btn btn-ghost" href="tel:+${m.tel}">Llamar</a>`
     : '';
   $('dlg-body').innerHTML=
-    `<span class="status">${m.boceto?'Boceto de ejemplo':'Ficha'}</span>
+    `${m.foto?`<img class="foto" src="${m.foto}" alt="Foto de ${m.nombre}">`:''}<span class="status">${m.boceto?'Boceto de ejemplo':'Ficha'}</span>
      <h3 id="dlg-name">${m.nombre}</h3>
      <dl><dt>Especie</dt><dd>${m.especie==='gato'?'Gato':'Perro'}</dd>
      <dt>Descripción</dt><dd>${m.desc}</dd>
